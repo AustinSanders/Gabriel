@@ -1,7 +1,13 @@
 
-"A C2 architecture is a network of components hooked together by connectors.  Components and connectors may be added to an architecture, removed from it, welded together, and detached from one another.  Hierarchical architectures are supported by allowing an entire architecture to act as a single component in a new, bigger architecture."
+"A C2 architecture is a network of components hooked together by connectors.  Components and connectors may be added
+to an architecture, removed from it, welded together, and detached from one another.  Hierarchical architectures are
+supported by allowing an entire architecture to act as a single component in a new, bigger architecture."
 
-The original C2 framework (C2.FW) was developed and implemented by Nenad Medvidovic, Nikunj Mehta, and Marija Mikic-Rakic {neno,mehta,marija}@usc.edu.
 
-The original C2 framework was written in C++, Ada, and Java.  Our re-envisioned framework is implemented in Python, and has been heavily influenced by the original C2 Framework.  Though our framework is primarily based on the original C2.FW, it is not intended to be a direct port, and divergences in design decisions are expected to arise.
+The original C2 framework (C2.FW) was developed and implemented by Nenad Medvidovic, Nikunj Mehta, and Marija 
+Mikic-Rakic {neno,mehta,marija}@usc.edu.
+
+The original C2 framework was written in C++, Ada, and Java.  Our re-envisioned framework is implemented in Python,
+and has been heavily influenced by the original C2 Framework.  Though our framework is primarily based on the original 
+C2.FW, it is not intended to be a direct port, and divergences in design decisions are expected to arise.
 
