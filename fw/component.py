@@ -1,36 +1,23 @@
 
-# Brick.py
+# component.py
 # Superclass for components and connectors
 
-class Brick():
-
-#   Unique identifier for this brick
-    _id = None
-
-
-#   Message Listeners
-    _message_listeners = []
-
-
-#   Architectural Message Listener
-    _arch_message_listeners = []
-
-
-#   Property table for this brick
-    _properties = None
-
-
-#   Send to all handler for this brick
-    _send_to_all_handler = None
-
+import multiprocessing
+class Component(multiprocessing.Process):
 
     def __init__(self, id):
-        self._id = id
-        self._properties = {}
+        super().__init__()
+        self._top = None #port for sending requests
+        self._bottom = None #port for sending notifications
+        self._arch_message_listeners = [] #port for sending architectural messages
+        self._send_to_all_handler = None
+        self._id = id #unique identifier for this component
+        self._properties = {} #table holding properties of the component
 
 
+    #@TODO replace "Component" with class name?
     def __str__(self):
-        return "Brick: " + str(self._id)
+        return "Component: " + str(self._id)
 
 
     @property
@@ -44,49 +31,67 @@ class Brick():
         """Getter for properties"""
         return self._properties
 
+    @property
+    def top(self):
+        """Getter for top interface"""
+        return self._top
+
+    @property
+    def bottom(self):
+        """Getter for bottom interface"""
+        return self._bottom
 
     def type(self):
         """Returns the class name as a string"""
         return self.__class__.__name__
 
 
-    # @TODO synchronize?
-    def add_message_listener(self, message_listener):
-        """Adds the specified message listener to the brick's list of message listeners"""
-        if message_listener not in  self._message_listeners:
-            self._message_listeners.append(message_listener)
-            return 1
-        return 0
+    def add_top(self, listener):
+        """Welds the event listener to the top port."""
+        if self._top == None:
+            self._top = listener
 
+    def remove_top(self):
+        """Removes the event listener from the top port."""
+        self._top = None
 
-    def remove_message_listener(self, message_listener):
-        """Removes the specified message listener from the brick's list of message listeners"""
-        if message_listener in self._message_listeners:
-            self._message_listeners.remove(message_listener)
-            return 1
-        return 0
+    def add_bottom(self, listener):
+        """Welds the event listener to the bottom port."""
+        if self._bottom == None:
+            self._bottom = listener
 
+    def remove_bottom(self):
+        """Removes the event listener from the bottom port."""
+        self._bottom = None
 
 ##@TODO## addRawMessageListener:
 
 ##@TODO## removeRawMessageListener:
 
-    def send(self, message):
-        """Sends the specified message to all message listeners."""
+    def request(self, message):
+        """Sends the specified message to the components listening to its top
+        port"""
         assert ( message.destination is not None and message.source is not None )
-        for i in self._message_listeners:
-            i.message_sent(message)
+        c_message = message.copy()
+        c_message.source.append(self.id)
+        self.top.request_sent(c_message)
 
+    def notify(self, message):
+        """Sends the specified message to the component connected to the
+        bottom port"""
+        assert ( message.destination is not None and message.source is not None )
+        c_message = message.copy()
+        c_message.source.append(self.id)
+        self.bottom.notification_sent(c_message)
 
     @property
     def send_to_all_handler(self, handler):
-        """Sets the send to all handler for this brick"""
+        """Sets the send to all handler for this component"""
         self._send_to_all_handler = handler
-        return 1
 
 ##### sendToAll
 #    def send_to_all(self, message, interface):
-#        """Sends the specified message to all bricks welded to the specified interface"""
+#        """Sends the specified message to all components welded to the specified interface"""
 #       assert (message is not None and interface is not None)
 #      idp = interface.interface_id_pair
 #     destinations = interface.get_all_connected_intefaces()
@@ -96,10 +101,11 @@ class Brick():
 ##### hasInterface:
 
     def set_property(self, prop, value):
+        prop = str(prop)
         self._properties[prop] = value
 
     def property_names(self):
-        '''Returns a list of the names of all properties in the brick'''
+        '''Returns a list of the names of all properties in the component'''
         prop_names = []
         for key in self._properties:
             prop_names.append(key)
@@ -107,16 +113,16 @@ class Brick():
 
     def remove_property(self, prop):
         '''Delete the specified property from the table if it exists'''
+        prop = str(prop)
         if(prop in self._properties):
             del self._properties[prop]
-            return 1
-        return 0
+        print('No property found with name ' + prop)
 
 ##### addArchMessageListener
 ##### removeArchMessageListener
 ##### sendArchMessage
 
-#(implemented by child class
+#(implemented by child class)
 ##### getInterface
     def get_interface(id):
         raise NotImplementedError('Get_interface(id) must be overridden by child class')
