@@ -23,7 +23,7 @@ class Connector(component.Component):
         if (listener in self._top):
             self._top.remove(listener)
             return
-        print("Event listener ", listener," not found / removed")
+        print("Event listener ", listener," not found / removed on connector ", self._id)
 
 
     def add_bottom(self, listener):
@@ -36,7 +36,7 @@ class Connector(component.Component):
         if (listener in self._bottom):
             self._bottom.remove(listener)
             return
-        print("Event listener ", listener," not found / removed")
+        print("Event listener ", listener," not found / removed on connector ", self._id)
 
     def request(self, message):
         """Sends the specified message to all components listening to its top
