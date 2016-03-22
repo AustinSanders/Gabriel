@@ -45,15 +45,13 @@ class Receiver(component.Component):
     def __init__(self,id):
         super().__init__(id)
 
+
     def request_sent(self, message):
-       if (self.id in message.destination):
-            print("component " , self.id , " received message : \n\t" +
-                  str(message))
+        print("component " , self.id , " received message : \n\t" + str(message))
+
 
     def notification_sent(self, message):
-        if (self.id in message.destination):
-            print("component " , self.id , " received notification : \n\t" +
-                    str(message))
+        print("component " , self.id , " received notification : \n\t" + str(message))
 
 
     #??
@@ -85,7 +83,7 @@ if __name__ == "__main__":
     t_router.start()
 
 
-    t_router.join
+    t_router.join()
     t_sender.join()
     t_receiver.join()
     s_receiver.join()
