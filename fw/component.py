@@ -50,7 +50,9 @@ class Component(multiprocessing.Process):
         """Welds the event listener to the top port."""
         if self._top == None:
             self._top = listener
-        #@TODO Raise an exception if _top already has a value
+        else:
+            raise C2ArchException("A component may have only a single event " +
+                                  "listener per port")
 
     def remove_top(self):
         """Removes the event listener from the top port."""
@@ -60,7 +62,9 @@ class Component(multiprocessing.Process):
         """Welds the event listener to the bottom port."""
         if self._bottom == None:
             self._bottom = listener
-        #@TODO Raise an exception if _bottom already has a value
+        else:
+            raise C2ArchException("A component may have only a single event " +
+                                  "listener per port")
 
     def remove_bottom(self):
         """Removes the event listener from the bottom port."""
@@ -113,7 +117,7 @@ class Component(multiprocessing.Process):
     def set_property(self, prop, value):
         prop = str(prop)
         self._properties[prop] = value
-    
+
 
     def remove_property(self, prop):
         """Delete the specified property from the table if it exists"""
@@ -161,6 +165,3 @@ class Component(multiprocessing.Process):
 ##### suspend
 ##### resume
 ##### stop
-
-
-
