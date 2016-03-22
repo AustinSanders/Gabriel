@@ -73,7 +73,7 @@ class Component(multiprocessing.Process):
     def request(self, message):
         """Sends the specified message to the components listening to its top
         port"""
-        assert ( message.destination is not None and message.source is not None )
+        assert ( message.source is not None )
         c_message = message.copy()
         c_message.source.append(self.id)
         self.top.request_sent(c_message)
@@ -81,7 +81,7 @@ class Component(multiprocessing.Process):
     def notify(self, message):
         """Sends the specified message to the component connected to the
         bottom port"""
-        assert ( message.destination is not None and message.source is not None )
+        assert ( message.source is not None )
         c_message = message.copy()
         c_message.source.append(self.id)
         self.bottom.notification_sent(c_message)

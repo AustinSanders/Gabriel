@@ -11,7 +11,6 @@ class Message():
 
     def __str__(self):
         return("Source path\t" + str(self.source) + "\n" +
-               "Destination\t" + str(self.destination) + "\n" +
                "\tPayload\t" + str(self.payload))
 
 

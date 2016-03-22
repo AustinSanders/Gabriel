@@ -10,13 +10,12 @@ class Sender(component.Component):
 
     def run(self):
         for i in range(20):
-            m = message.Message(self.id, str(random.randrange(3,5)), str(i))
+            m = message.Message(self.id, str(i))
             self.request(m)
             time.sleep(.5)
 
 
 class Router(connector.Connector):
-
 
     def __init__(self, id):
         super().__init__(id)
@@ -54,7 +53,7 @@ class Receiver(component.Component):
         print("component " , self.id , " received notification : \n\t" + str(message))
 
 
-    #??
+    #@TODO Determine what this ought to be and do...
     def run(self):
         pass
 

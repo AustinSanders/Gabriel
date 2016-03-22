@@ -41,7 +41,7 @@ class Connector(component.Component):
     def request(self, message):
         """Sends the specified message to all components listening to its top
         port"""
-        assert ( message.destination is not None and message.source is not None )
+        assert ( message.source is not None )
         for i in self._top:
             c_message = message.copy()
             c_message.source.append(self.id)
@@ -50,7 +50,7 @@ class Connector(component.Component):
     def notify(self, message):
         """Sends the specified message to all components listening to its
         bottom port"""
-        assert ( message.destination is not None and message.source is not None )
+        assert ( message.source is not None )
         if self.id in message.source:
             return
         for i in self._bottom:
