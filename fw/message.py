@@ -1,11 +1,8 @@
 import copy
 
 class Message():
-    def __init__(self, source=None, payload=None):
+    def __init__(self, payload=None):
         self.source = []
-        if source != None:
-            self.source.append(source)
-
         self.payload = payload
 
 
@@ -16,3 +13,8 @@ class Message():
 
     def copy(self):
         return copy.deepcopy(self)
+
+    def append_sender(self, sender):
+        if sender != None:
+            self.source.append(source)
+        return self

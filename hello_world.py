@@ -10,7 +10,7 @@ class Sender(component.Component):
 
     def run(self):
         for i in range(20):
-            m = message.Message(self.id, str(i))
+            m = message.Message(str(i))
             self.request(m)
             time.sleep(.5)
 
