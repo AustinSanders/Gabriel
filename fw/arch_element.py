@@ -1,5 +1,5 @@
 import multiprocessing as mp
-
+from queue import Queue
 
 class Arch_Element(mp.Process):
 
