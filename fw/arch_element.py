@@ -3,7 +3,7 @@ from queue import Queue
 
 class Arch_Element(threading.Thread):
 
-    def __init__(self, id):
+    def __init__(self, id, behavior=None):
         super().__init__(self)
         self._top = []
         self._bottom = []
@@ -13,6 +13,8 @@ class Arch_Element(threading.Thread):
         self._properties = {}
         self.requests = Queue()
         self.notifications = Queue()
+        if behavior != None:
+            self.run = behavior
 
 
     def __str__(self):
