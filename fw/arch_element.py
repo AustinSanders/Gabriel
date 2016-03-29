@@ -1,8 +1,7 @@
-import multiprocessing as mp
+import threading
 from queue import Queue
 
-class Arch_Element(mp.Process):
-
+class Arch_Element(threading.Thread):
 
     def __init__(self, id):
         super().__init__(self)
@@ -19,20 +18,24 @@ class Arch_Element(mp.Process):
     def __str__(self):
         return "Element: " + str(self._id)
 
+
     @property
     def id(self):
         """Getter for unique ID"""
         return self._id
+
 
     @property
     def properties(self):
         """Getter for properties"""
         return self._properties
 
+
     @property
     def top(self):
         """Getter for top port"""
         return self._top
+
 
     @property
     def bottom(self):
@@ -48,6 +51,7 @@ class Arch_Element(mp.Process):
     def add_top(self, listener):
         """Adds an event listener to the top port"""
         self._top.append(listener)
+
 
     def remove_top(self, listener):
         """Remove an event listener from the top port"""
@@ -79,9 +83,5 @@ class Arch_Element(mp.Process):
         for i in self._bottom:
             c_message = message.copy()
             i.notifications.put(c_message.append_sender(self))
-
-
-
-
 
 #@TODO Implement interface style functions (i.e. raise NotImplementedErrors)
