@@ -16,5 +16,5 @@ class Message():
 
     def append_sender(self, sender):
         if sender != None:
-            self.source.append(source)
+            self.source.append(sender)
         return self
