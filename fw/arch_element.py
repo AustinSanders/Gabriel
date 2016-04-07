@@ -1,14 +1,51 @@
 import threading
 
-
 class ArchElement(threading.Thread):
 
     def __init__(self, id, behavior=None):
-        super().__init__(target=behavior)
+        threading.Thread.__init__(target=behavior)
         self.id = id
         self.interfaces = []
         self.event_dispatchers = []
         self.properties = {}
+
+    # This class method should return a dictionary after the pattern of the one provided here. It is
+    # used by the ArchitectureManager to make connections between ArchElements.
+    def description():
+        description = {           "name" : "ArchElement",
+                                 "class" : ArchElement,
+                            "interfaces" : [], # List of strings which are interface ids
+                           "dispatchers" : [], # List of strings which are dispatcher ids
+                        "events_emitted" : [], # List of classes which subclass Event
+                       "events_consumed" : [], # List of classes which subclass Event
+                      }
+        raise NotImplementedError
+
+    # Override this method with a callable which implements how this ArchElement's thread will
+    # behave. This method is called in a loop by the run method and, as such, should not include any
+    # infinite loops or waiting without a timeout.
+    def behavior(self):
+        raise NotImplementedError
+
+    # DO NOT OVERRIDE:
+    #   To specify behavior for an ArchElement override its 'behavior' method.
+    # Check for any ArchEvents and do the appropriate thing based on the event type. Then run
+    # behavior.
+    def run(self):
+        pass
+
+    # Temporarily suspends the ArchElement's activity if it was running, otherwise it should do
+    # nothing. Undone by calling resume().
+    def suspend(self):
+        raise NotImplementedError
+
+    # Resumes the ArchElement's activity if it was suspended, otherwise it should do nothing.
+    def resume(self):
+        raise NotImplementedError
+
+    # Prepares the ArchElement for deletion or removal from the architecture and halts its activity.
+    def stop(self):
+        raise NotImplementedError
 
     def add_interface(self, interface):
         self.interfaces.append(interface)
