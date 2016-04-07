@@ -13,7 +13,7 @@ class Event():
         cp = Event()
         cp.source = copy.deepcopy(self.source)
         cp.payload = copy.deepcopy(self.payload)
-        cp.context = self.context
+        cp.context = copy.copy(self.context)
         return cp
 
     def append_source(self, source):
