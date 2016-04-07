@@ -1,4 +1,3 @@
-from fw import EventListener
 from queue import Queue
 
 
@@ -21,6 +20,7 @@ class EventDispatcher(Queue):
     def remove_handler(self, event_handler_id):
         self.event_handlers.remove(self.get_event_handler(event_handler_id))
 
+    # Throws queue.Empty exception
     def dispatch_event(self):
         current_event = self.get(True, self.timeout).copy()
         current_event.context = self.owner.properties
