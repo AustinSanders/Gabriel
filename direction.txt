@@ -1,0 +1,10 @@
+Need to add ArchitectureManager which can 'see' all the connections between elements, make new
+connections, remove connections, and send out events which tell elements to cease or resume
+activity. How the elements actually respond to these events is still up to the element, but we
+should likely provide a default behavior.
+
+Basic connector behavior should be provided simply by defining a 'run' method in the connector
+class.
+
+ArchElements should wrap what behavior they are passed with a loop that listens for messages sent by
+the ArchitectureManager.
