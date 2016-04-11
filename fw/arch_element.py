@@ -1,13 +1,18 @@
 import threading
+from queue import Queue
+from fw import ArchEventDispatcher
+
 
 class ArchElement(threading.Thread):
 
-    def __init__(self, id, behavior=None):
-        threading.Thread.__init__(target=behavior)
+    def __init__(self, id, passed_behavior=None):
+        threading.Thread.__init__()
         self.id = id
         self.interfaces = []
         self.event_dispatchers = []
         self.properties = {}
+        self.elem_status = "INITIATED"
+        self.behavior = passed_behavior
 
     # This class method should return a dictionary after the pattern of the one provided here. It is
     # used by the ArchitectureManager to make connections between ArchElements.
@@ -32,20 +37,29 @@ class ArchElement(threading.Thread):
     # Check for any ArchEvents and do the appropriate thing based on the event type. Then run
     # behavior.
     def run(self):
-        pass
+        while true:
+            self.arch_event_dispatcher.dispatch_event()
+            if self.elem_status == "STOPPED":
+                break
+            elif self.elem_status == "SUSPENDED":
+                pass
+            elif self.elem_status == "RUNNING":
+                self.behavior()
 
     # Temporarily suspends the ArchElement's activity if it was running, otherwise it should do
     # nothing. Undone by calling resume().
     def suspend(self):
-        raise NotImplementedError
+        self.elem_status == "SUSPENDED"
 
     # Resumes the ArchElement's activity if it was suspended, otherwise it should do nothing.
+    # NOTE: Suspended ArchElements should still receive events
     def resume(self):
-        raise NotImplementedError
+        self.elem_status == "RUNNING"
 
     # Prepares the ArchElement for deletion or removal from the architecture and halts its activity.
+    # NOTE: Stopped ArchElements should ignore events received after they are stopped
     def stop(self):
-        raise NotImplementedError
+        self.elem_status == "STOPPED"
 
     def add_interface(self, interface):
         self.interfaces.append(interface)
