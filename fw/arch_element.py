@@ -30,7 +30,7 @@ class ArchElement(threading.Thread):
             if self.elem_status == "STOPPED":
                 break
             elif self.elem_status == "SUSPENDED":
-                pass # TODO: Figure this out
+                continue
             elif self.elem_status == "RUNNING":
                 self.behavior()
 
@@ -52,6 +52,10 @@ class ArchElement(threading.Thread):
     # NOTE: Stopped ArchElements should ignore events received after they are stopped
     def stop(self):
         self.elem_status == "STOPPED"
+
+    # Can be called as a final resort when an ArchElement is 'hung' after being stopped.
+    def kill(self): 
+        pass
 
     def add_interface(self, interface):
         self.interfaces.append(interface)
